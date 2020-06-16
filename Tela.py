@@ -1,21 +1,12 @@
 from tkinter import *
 from tkinter import messagebox
-import fourFn
 import funcoes
 import matplotlib.pyplot as plt
+import sympy as sp
+
 
 def Grafico(f, d, a, b):
-    x=[]
-    y=[]
-
-    x.append(a)
-    y.append(fourFn.strToFunc(f.replace("x", str(a))))
-    while(a<b):
-        a+=d
-        x.append(a)
-        y.append(fourFn.strToFunc(f.replace("x", str(a))))
-    plt.plot(x,y)
-    plt.show()
+    pass
 
 def Info():
     messagebox.showinfo("Feito por", "Matheus Sinto Novaes - 181025981 \n Inaê Soares de Figueiredo - 181021651 \n Thiago La Scala - 181025655")
@@ -24,14 +15,11 @@ def Info():
 def Click():
     try:
         f = funcao.get()
-        d = abs(float(delta.get()))
-        a = float(aEntry.get())
-        b = float(bEntry.get())
-        if(a > b):
-            aux = a
-            a = b
-            b = aux
-        ep = abs(float(eEntry.get()))
+        e = abs(float(eEntry.get()))
+        x00 = float(x00Entry.get())
+        x01 = float(x01Entry.get())
+        x = sp.Array([x00, x01])
+
         op = optionVar.get()
         gr = graficoVar.get()
         
@@ -45,25 +33,36 @@ def Click():
             resW.title("Coordenadas Cíclicas")
             #poe haders da tabela
             Label(resW, text = "k").grid(row = 0, column = 0)
-            Label(resW, text = "x").grid(row = 0, column = 1)
-            Label(resW, text= "f(x)").grid(row = 0, column = 2)
-            Label(resW, text= "xk").grid(row = 0, column = 3)
-            Label(resW, text= "f(xk)").grid(row = 0, column = 4)
-            Label(resW, text= "f(xk) < f(x)?").grid(row = 0, column = 5)
+            Label(resW, text = "xᵏ").grid(row = 0, column = 1)
+            Label(resW, text= "j").grid(row = 0, column = 2)
+            Label(resW, text= "dʲ").grid(row = 0, column = 3)
+            Label(resW, text= "yʲ").grid(row = 0, column = 4)
+            Label(resW, text= "λʲ").grid(row = 0, column = 5)
+            Label(resW, text= "yʲ⁺¹").grid(row = 0, column = 6)
+            Label(resW, text= "xᵏ⁺¹").grid(row = 0, column = 7)
+            Label(resW, text= "||xᵏ⁺¹-xᵏ||").grid(row = 0, column = 8)
             #executa funcao
-            '''lista = funcoes.BuscaUniforme(f, d, a, b)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
+            resp = funcoes.ciclicas(f, x, e)
+            z = 0
+            w = 0
+            for n, it in zip(range(len(resp)),resp):
+                w += n+1
+                for i, j in zip(range(len(it)), it):
+                    
+                    if i == 0:
+                        for a, b in zip(range(2), j):
+                            Label(resW, text = b).grid(row = w+z, column = a)
+                    elif i == len(it)-1:
+                        w -=1
+                        for a, b in zip(range(7, 9), j):
+                            Label(resW, text = b).grid(row = w+z, column = a)
+                    else:
+                        for q in j:
+                            for a, b in zip(range(2, 7), q):
+                                Label(resW, text = b).grid(row = w+z, column = a)
+                            w+=1
+            z = w+z
+                    
 
         elif(op == 1):
             resW.title("Hooke and Jeeves")
@@ -223,7 +222,7 @@ def Click():
                 r+=1'''
 
         if(gr):
-            Grafico(f, 0.01, a, b)
+            Grafico()
         
 #executa tela
 root = Tk()
@@ -246,35 +245,34 @@ davidsonPowell = Radiobutton(optionsF, text = 'Davidson-Fletcher-Powell', variab
 #CheckBox
 graficoCB = Checkbutton(root, text="Gerar Gráfico", variable = graficoVar)
 #Entradas
-funcao = Entry(dataF)
-funcao.insert(0, "x^2-x*e^-x")
-delta = Entry(dataF)
-delta.insert(0, "0.04")
+funcao = Entry(dataF, width = 25)
+funcao.insert(0, "(1-x1)^2+5*(x2-x1^2)^2")
 eEntry = Entry(dataF)
-eEntry.insert(0, "0.01")
-aEntry = Entry(dataF, width=5)
-aEntry.insert(0, "0.1")
-bEntry = Entry(dataF, width = 5)
-bEntry.insert(0, "3")
+eEntry.insert(0, "0.1")
+x00Entry = Entry(dataF, width = 5)
+x00Entry.insert(0, "2")
+x01Entry = Entry(dataF, width = 5)
+x01Entry.insert(0, "0")
 
 #Botoes
 info = Button(root, text = "i", command = Info).grid(row = 6, column = 1, sticky = E)
 botao = Button(root, text = "Calcular!", command = Click).grid(row= 6, column = 2, sticky = W+E)
 
-
 #Inserções na tela
 #Labels
-funcaoLabel = Label(dataF, text = "min f(x) = ").grid(row= 1, column = 1)
-deltaLabel = Label(dataF, text = "Δ = ").grid(row= 2, column = 1)
-epsolonLabel = Label(dataF, text = "ε = ").grid(row = 3, column = 1)
-saLabel = Label(dataF, text = "s. a: { ").grid(row= 5, column= 1)
-xLabel = Label(dataF, text = "≤x≤").grid(row= 5, column = 3)
+funcaoLabel = Label(dataF, text = "min f(x) = ").grid(row= 1, column = 1, sticky = E)
+epsolonLabel = Label(dataF, text = "ε = ").grid(row = 2, column = 1, sticky = E)
+x0Label = Label(dataF, text = 'x₀ = [ ').grid(row = 3, column = 1, sticky = E)
+virguLabel = Label(dataF, text = ' ,  ').grid(row = 3, column = 3, sticky = E)
+fechaLabel = Label(dataF, text = ']ᵗ').grid(row = 3, column = 5, sticky = E)
+
+
 #Entrys
-funcao.grid(row = 1, column= 2, sticky=W+E, columnspan = 3)
-delta.grid(row = 2, column= 2, sticky=W+E, columnspan = 3)
-eEntry.grid(row = 3, column = 2, sticky = W+E, columnspan = 3)
-aEntry.grid(row= 5, column = 2, sticky=W+E)
-bEntry.grid(row= 5, column = 4, sticky=W+E)
+funcao.grid(row = 1, column= 2, sticky=W+E, columnspan = 4)
+eEntry.grid(row = 2, column = 2, sticky = W+E, columnspan = 4)
+x00Entry.grid(row = 3, column = 2, sticky = W+E)
+x01Entry.grid(row = 3, column = 4, sticky = W+E)
+
 #Radio Buttons
 ciclicaRB.grid(row= 1, column= 3, sticky = W)
 hookeAndJeevesRB.grid(row= 2, column= 3, sticky = W)
