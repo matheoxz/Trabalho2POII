@@ -31,7 +31,7 @@ def Click():
         
         if(op == 0):
             resW.title("Coordenadas Cíclicas")
-            #poe haders da tabela
+            #poe headers da tabela
             Label(resW, text = "k").grid(row = 0, column = 0)
             Label(resW, text = "xᵏ").grid(row = 0, column = 1)
             Label(resW, text= "j").grid(row = 0, column = 2)
@@ -78,19 +78,19 @@ def Click():
             Label(resW, text= "f(x)>f(z)?").grid(row = 0, column = 8)
             
             #executa funcao
-            '''lista = funcoes.BuscaDicotomica(f, d, a, b, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
+#            lista = funcoes.BuscaDicotomica(f, d, a, b, ep)
+ #           r = 1
+  #          c = 0
+   #         for i in lista:
+    #            if (type(i) is str):
+     #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
+      #                  r+=1
+       #                 continue
+        #        for j in i:
+         #           Label(resW, text = str(j)).grid(row = r, column = c)
+          #          c+=1
+           #     c=0
+            #    r+=1
 
         elif(op == 2):
             resW.title("Gradiente")
@@ -105,19 +105,19 @@ def Click():
             Label(resW, text= "f(λ)").grid(row = 0, column = 7)
             Label(resW, text= "f(µ) > ou < f(λ)?").grid(row = 0, column = 8)
             #executa funcao
-            '''lista = funcoes.SecaoAurea(f, a, b, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 3)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
+#            lista = funcoes.SecaoAurea(f, a, b, ep)
+ #           r = 1
+  #          c = 0
+   #         for i in lista:
+    #            if (type(i) is str):
+     #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 3)
+      #                  r+=1
+       #                 continue
+        #        for j in i:
+         #           Label(resW, text = str(j)).grid(row = r, column = c)
+          #          c+=1
+        #        c=0
+         #       r+=1
 
         elif(op == 3):
             resW.title('Newton')
@@ -132,25 +132,25 @@ def Click():
             Label(resW, text= "f(λ)").grid(row = 0, column = 7)
             Label(resW, text= "f(µ) > ou < f(λ)?").grid(row = 0, column = 8)
             #executa funcao
-            '''lista = funcoes.SecaoFibonacci(f, a, b, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                o = 0
-                if (type(i) is str):
-                        if(o == 1):
-                            Label(resW, text = i).grid(row = r, column = c, columnspan = 5)
-                            c+=5
-                        else:
-                            Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
-                            c+=2
-                        o+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
+#            lista = funcoes.Newton(f, a, b, ep)
+ #           r = 1
+  #          c = 0
+   #         for i in lista:
+    #            o = 0
+     #           if (type(i) is str):
+     #                   if(o == 1):
+      #                      Label(resW, text = i).grid(row = r, column = c, columnspan = 5)
+       #                     c+=5
+        #                else:
+         #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
+          #                  c+=2
+           #             o+=1
+      #                  continue
+       #         for j in i:
+        #            Label(resW, text = str(j)).grid(row = r, column = c)
+         #           c+=1
+         #       c=0
+          #      r+=1
 
         elif(op == 4):
             resW.title("Gradiente Conjugado Generalizado")
@@ -161,19 +161,19 @@ def Click():
             Label(resW, text= "f'(x)").grid(row = 0, column = 4)
             Label(resW, text= "f'(x) > 0?").grid(row = 0, column = 5)
 
-            '''lista = funcoes.Bissecao(f, a, b, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
+ #           lista = funcoes.Bissecao(f, a, b, ep)
+  #          r = 1
+   #         c = 0
+    #        for i in lista:
+     #           if (type(i) is str):
+      #                  Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
+       #                 r+=1
+        #                continue
+         #       for j in i:
+          #          Label(resW, text = str(j)).grid(row = r, column = c)
+           #         c+=1
+            #    c=0
+          #      r+=1
         
         elif(op == 5):
             resW.title("Fletcher and Reeves")
@@ -184,20 +184,20 @@ def Click():
             Label(resW, text= "|f'(x)| > ε?").grid(row = 0, column = 4)
             Label(resW, text= "|xi-xi-1|/max{|xi|,1} > ε?").grid(row = 0, column = 5)
 
-            '''lista = funcoes.Newton(f, a, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
-
+      #      lista = funcoes.Newton(f, a, ep)
+       #     r = 1
+        #    c = 0
+         #   for i in lista:
+          #      if (type(i) is str):
+           #             Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
+            #            r+=1
+             #           continue
+              #  for j in i:
+               #     Label(resW, text = str(j)).grid(row = r, column = c)
+                #    c+=1
+           #     c=0
+            #    r+=1
+            
         elif(op == 6):
             resW.title("Davison-Fletcher-Powell")
             Label(resW, text = "k").grid(row = 0, column = 0)
@@ -207,20 +207,20 @@ def Click():
             Label(resW, text= "|f'(x)| > ε?").grid(row = 0, column = 4)
             Label(resW, text= "|xi-xi-1|/max{|xi|,1} > ε?").grid(row = 0, column = 5)
 
-            '''lista = funcoes.Newton(f, a, ep)
-            r = 1
-            c = 0
-            for i in lista:
-                if (type(i) is str):
-                        Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-                        r+=1
-                        continue
-                for j in i:
-                    Label(resW, text = str(j)).grid(row = r, column = c)
-                    c+=1
-                c=0
-                r+=1'''
-
+#            lista = funcoes.Newton(f, a, ep)
+ #           r = 1
+  #          c = 0
+   #         for i in lista:
+    #            if (type(i) is str):
+     #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
+      #                  r+=1
+       #                 continue
+        #        for j in i:
+         #           Label(resW, text = str(j)).grid(row = r, column = c)
+          #          c+=1
+           #     c=0
+            #    r+=1
+            
         if(gr):
             Grafico()
         
