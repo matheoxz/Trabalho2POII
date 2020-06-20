@@ -20,14 +20,14 @@ def Click():
         x01 = float(x01Entry.get())
         x = sp.Array([x00, x01])
 
-        q11 = q11Entry.get()
-        q12 = q12Entry.get()
-        q21 = q21Entry.get()
-        q22 = q22Entry.get()
+        q11 = float(q11Entry.get())
+        q12 = float(q12Entry.get())
+        q21 = float(q21Entry.get())
+        q22 = float(q22Entry.get())
         Q = [[q11, q12],[q21, q22]]
 
-        b1 = b1Entry.get()
-        b2 = b2Entry.get()
+        b1 = float(b1Entry.get())
+        b2 = float(b2Entry.get())
         b = [b1, b2]
 
         op = optionVar.get()
@@ -152,25 +152,19 @@ def Click():
         elif(op == 4):
             resW.title("Gradiente Conjugado Generalizado")
             Label(resW, text = "k").grid(row = 0, column = 0)
-            Label(resW, text = "a").grid(row = 0, column = 1)
-            Label(resW, text= "b").grid(row = 0, column = 2)
-            Label(resW, text= "x").grid(row = 0, column = 3)
-            Label(resW, text= "f'(x)").grid(row = 0, column = 4)
-            Label(resW, text= "f'(x) > 0?").grid(row = 0, column = 5)
+            Label(resW, text = "g").grid(row = 0, column = 1)
+            Label(resW, text= "||g||").grid(row = 0, column = 2)
+            Label(resW, text= "d").grid(row = 0, column = 3)
+            Label(resW, text= "β").grid(row = 0, column = 4)
+            Label(resW, text= "y").grid(row = 0, column = 5)
+            
 
-            lista = funcoes.Bissecao(f, a, b, ep)
-         #   r = 1
-        #    c = 0
-       #     for i in lista:
-      #          if (type(i) is str):
-      #                  Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-       #                 r+=1
-        #                continue
-         #       for j in i:
-          #          Label(resW, text = str(j)).grid(row = r, column = c)
-           #         c+=1
-            #    c=0
-          #      r+=1
+            resp = funcoes.gradienteConjugadoGeneralizado(f, x, Q, b, e)
+            
+            for n, it in zip(range(len(resp)), resp):
+                for i, j in zip(it, range(len(it))):
+                    Label(resW, text = str(i)).grid(row = n+1, column = j)
+
         
         elif(op == 5):
             resW.title("Fletcher and Reeves")
@@ -251,11 +245,17 @@ x00Entry.insert(0, "0")
 x01Entry = Entry(dataF, width = 5)
 x01Entry.insert(0, "0")
 q11Entry = Entry(dataF, width = 5)
+q11Entry.insert(0, "5")
 q12Entry = Entry(dataF, width = 5)
+q12Entry.insert(0, "1")
 q21Entry = Entry(dataF, width = 5)
+q21Entry.insert(0, "1")
 q22Entry = Entry(dataF, width = 5)
+q22Entry.insert(0, "2")
 b1Entry = Entry(dataF, width = 5)
+b1Entry.insert(0, "24")
 b2Entry = Entry(dataF, width = 5)
+b2Entry.insert(0, "12")
 
 
 #Botoes

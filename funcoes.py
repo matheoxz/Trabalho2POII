@@ -238,35 +238,44 @@ def gradienteConjugadoGeneralizado(f, x, Q, b, e):
     Resposta = []
 
     Q = sp.Matrix(Q)
-    b = sp.Matrix(b).transpose()
-    x = sp.Matrix(x).transpose()
+    b = sp.Matrix(b)
+    x = sp.Matrix(x)
+    d = sp.Matrix([0,0])
+    B = 0
     y = x
-    k = 0
+    k = 1
+
+    g = Q*y-b
 
     while True:
-        g = Q*y-b
-        if k==1:
-            d = (-1)*g
-        
+
+        d = B*d - g
         l1 = (g.transpose()*d)
         l2 = (d.transpose()*Q*d)
-        L = l1[0]/l2[0]
+        L = l1[0]/l2[0] * (-1)
 
-        y1 = y + L*d
+        y = y + L*d
 
-        g1 = Q*y1-b
-        bt1 = (g1.transpose()*Q*d)
-        bt2 = (d.transpose()*Q*d)
-        B = bt1[0]/bt2[0]
-
+        g = Q*y-b
 
         dist = np.array(g, dtype = np.float)
         dist = np.linalg.norm(dist)
-        Resposta.append([k, g, g1, d, B, y, y1, dist])
-        print(Resposta)
-
         if(dist<e):
+            Resposta.append([k, g, dist])
             break
+
+
+        bt1 = (g.transpose()*Q*d)
+        bt2 = (d.transpose()*Q*d)
+        B = bt1[0]/bt2[0]
+
+        
+        Resposta.append([k, g, dist, d, B, y])
+
+        k += 1
+
+    return Resposta
+        
 
 
     
