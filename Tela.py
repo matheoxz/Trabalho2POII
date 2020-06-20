@@ -20,6 +20,16 @@ def Click():
         x01 = float(x01Entry.get())
         x = sp.Array([x00, x01])
 
+        q11 = q11Entry.get()
+        q12 = q12Entry.get()
+        q21 = q21Entry.get()
+        q22 = q22Entry.get()
+        Q = [[q11, q12],[q21, q22]]
+
+        b1 = b1Entry.get()
+        b2 = b2Entry.get()
+        b = [b1, b2]
+
         op = optionVar.get()
         gr = graficoVar.get()
         
@@ -148,11 +158,11 @@ def Click():
             Label(resW, text= "f'(x)").grid(row = 0, column = 4)
             Label(resW, text= "f'(x) > 0?").grid(row = 0, column = 5)
 
- #           lista = funcoes.Bissecao(f, a, b, ep)
-  #          r = 1
-   #         c = 0
-    #        for i in lista:
-     #           if (type(i) is str):
+            lista = funcoes.Bissecao(f, a, b, ep)
+         #   r = 1
+        #    c = 0
+       #     for i in lista:
+      #          if (type(i) is str):
       #                  Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
        #                 r+=1
         #                continue
@@ -240,6 +250,13 @@ x00Entry = Entry(dataF, width = 5)
 x00Entry.insert(0, "0")
 x01Entry = Entry(dataF, width = 5)
 x01Entry.insert(0, "0")
+q11Entry = Entry(dataF, width = 5)
+q12Entry = Entry(dataF, width = 5)
+q21Entry = Entry(dataF, width = 5)
+q22Entry = Entry(dataF, width = 5)
+b1Entry = Entry(dataF, width = 5)
+b2Entry = Entry(dataF, width = 5)
+
 
 #Botoes
 info = Button(root, text = "i", command = Info).grid(row = 6, column = 1, sticky = E)
@@ -250,8 +267,10 @@ botao = Button(root, text = "Calcular!", command = Click).grid(row= 6, column = 
 funcaoLabel = Label(dataF, text = "min f(x) = ").grid(row= 1, column = 1, sticky = E)
 epsolonLabel = Label(dataF, text = "ε = ").grid(row = 2, column = 1, sticky = E)
 x0Label = Label(dataF, text = 'x₀ = [ ').grid(row = 3, column = 1, sticky = E)
-virguLabel = Label(dataF, text = ' ,  ').grid(row = 3, column = 3, sticky = E)
-fechaLabel = Label(dataF, text = ']ᵗ').grid(row = 3, column = 5, sticky = E)
+virguLabel = Label(dataF, text = ' ,  ').grid(row = 3, column = 3)
+fechaLabel = Label(dataF, text = ']ᵗ').grid(row = 3, column = 5, sticky = W)
+QLabel = Label(dataF, text = 'Q = ').grid(row = 4, column = 1, sticky = E)
+bLabel = Label(dataF, text = 'b = ').grid(row = 4, column = 4)
 
 
 #Entrys
@@ -259,6 +278,12 @@ funcao.grid(row = 1, column= 2, sticky=W+E, columnspan = 4)
 eEntry.grid(row = 2, column = 2, sticky = W+E, columnspan = 4)
 x00Entry.grid(row = 3, column = 2, sticky = W+E)
 x01Entry.grid(row = 3, column = 4, sticky = W+E)
+q11Entry.grid(row = 4, column = 2)
+q12Entry.grid(row = 4, column = 3)
+q21Entry.grid(row = 5, column = 2)
+q22Entry.grid(row = 5, column = 3)
+b1Entry.grid(row = 4, column = 5)
+b2Entry.grid(row = 5, column = 5)
 
 #Radio Buttons
 ciclicaRB.grid(row= 1, column= 3, sticky = W)
