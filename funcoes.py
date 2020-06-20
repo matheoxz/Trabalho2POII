@@ -2,13 +2,17 @@ import sympy as sp
 import numpy as np
 import math
 
-def FunctionReplace(f, x):
+def FunctionStandard(f):
     f = f.replace('^', '**')
     f = f.replace('x1', '(x1)')
     f = f.replace('x2', '(x2)')
+    f = f.replace('e', 'E')
+    return f
+
+def FunctionReplace(f, x):
+    f = FunctionStandard(f)
     f = f.replace('x1', str(x[0]))
     f = f.replace('x2', str(x[1]))
-    f = f.replace('e', 'E')
     return f
 
 def MinimizaEDelta(f, x1, L):
@@ -66,7 +70,6 @@ def ciclicas(f, x, eps):
 
     return Resposta
 
-
 def hookeAndJeeves(f, x, eps):
     Resposta = []
     #declara lambda
@@ -114,17 +117,121 @@ def hookeAndJeeves(f, x, eps):
 
         Resposta.append(K)
 
-
     return Resposta
             
+def Gradiente_Diff(f, y):
+    fr = FunctionStandard(f)
 
+    g1 = sp.Derivative(fr, 'x1')
+    g1 = g1.doit()
 
-def gradiente():
-    pass
+    g1 = g1.subs('x1', y[0])
+    g1 = g1.subs('x2', y[1])
 
+    g2 = sp.Derivative(fr, 'x2')
+    g2 = g2.doit()
 
-def newton():
-    pass
+    g2 = g2.subs('x1', y[0])
+    g2 = g2.subs('x2', y[1])
+
+    grad = sp.Array([g1, g2])
+
+    return grad
+
+def gradiente(f, x, eps):
+
+    Resposta = []
+    L = sp.Symbol('λ')
+    k = 1
+    y = x
+
+    while True:
+        #calculo do gradiente
+        grad = Gradiente_Diff(f, y)
+        
+        d = (-1)*grad
+
+        y1 = y + L*d
+        l = MinimizaEDelta(f, y1, L)
+        y = y + l*d
+
+        #distancia
+        dist = np.array(grad, dtype = np.float)
+        dist = np.linalg.norm(dist)
+        Resposta.append([k, grad, d, l, y, dist])
+
+        if(dist < eps):
+            break
+
+        k += 1
+
+    return Resposta
+
+def Hessiana(f, y):
+    fr = FunctionStandard(f)
+
+    g1 = sp.Derivative(fr, 'x1')
+    g1 = g1.doit()
+
+    H1 = sp.Derivative(g1, 'x1')
+    H2 = sp.Derivative(g1, 'x2')
+
+    H1 = H1.doit()
+    H2 = H2.doit()
+
+    H1 = H1.subs('x1', y[0])
+    H1 = H1.subs('x2', y[1])
+
+    H2 = H2.subs('x1', y[0])
+    H2 = H2.subs('x2', y[1])
+    
+    g2 = sp.Derivative(fr, 'x2')
+    g2 = g2.doit()
+
+    H3 = sp.Derivative(g2, 'x1')
+    H4 = sp.Derivative(g2, 'x2')
+
+    H3 = H3.doit()
+    H4 = H4.doit()
+
+    H3 = H3.subs('x1', y[0])
+    H3 = H3.subs('x2', y[1])
+
+    H4 = H4.subs('x1', y[0])
+    H4 = H4.subs('x2', y[1])
+
+    hess = sp.Matrix([[H1, H2], [H3, H4]])
+
+    return hess
+
+def newton(f, x, eps):
+    Resposta = []
+    k = 1
+    y = x
+
+    while True:
+        G = sp.Matrix(Gradiente_Diff(f, y))
+        H = Hessiana(f, y)
+
+        HInversa = H**(-1)
+        d = (-1)*HInversa*G
+
+        yA = y
+        d = d.transpose()
+        d = d.tolist()
+        y = y + sp.Array(d[0])
+
+        dist = np.array(G, dtype = np.float)
+        dist = np.linalg.norm(dist)
+
+        Resposta.append([k, yA, G, H, HInversa, d, y])
+
+        if(dist < eps):
+            break
+
+        k += 1
+
+    return Resposta
 
 
 def gradienteConjugadoGeneralizado():
@@ -139,5 +246,3 @@ def davidsonFletcherPowell():
     pass
 
 
-#a = ciclicas('(1-x1)^2+5*(x2-x1^2)^2', sp.Array([2,0]), 0.1)
-#print(a)

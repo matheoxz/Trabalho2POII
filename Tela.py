@@ -111,61 +111,33 @@ def Click():
             resW.title("Gradiente")
             #poe haders da tabela
             Label(resW, text = "k").grid(row = 0, column = 0)
-            Label(resW, text = "a").grid(row = 0, column = 1)
-            Label(resW, text= "b").grid(row = 0, column = 2)
-            Label(resW, text= "(b-a)").grid(row = 0, column = 3)
-            Label(resW, text= "µ").grid(row = 0, column = 4)
-            Label(resW, text= "λ").grid(row = 0, column = 5)
-            Label(resW, text= "f(µ)").grid(row = 0, column = 6)
-            Label(resW, text= "f(λ)").grid(row = 0, column = 7)
-            Label(resW, text= "f(µ) > ou < f(λ)?").grid(row = 0, column = 8)
+            Label(resW, text= "∇f(x)").grid(row = 0, column = 1)
+            Label(resW, text= "d").grid(row = 0, column = 2)
+            Label(resW, text= "λ").grid(row = 0, column = 3)
+            Label(resW, text= "xᵏ⁺¹").grid(row = 0, column = 4)
+            Label(resW, text= "||∇f(x)||").grid(row = 0, column = 5)
             #executa funcao
-#            lista = funcoes.SecaoAurea(f, a, b, ep)
- #           r = 1
-  #          c = 0
-   #         for i in lista:
-    #            if (type(i) is str):
-     #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 3)
-      #                  r+=1
-       #                 continue
-        #        for j in i:
-         #           Label(resW, text = str(j)).grid(row = r, column = c)
-          #          c+=1
-        #        c=0
-         #       r+=1
+            resp = funcoes.gradiente(f, x, e)
+            for n, it in zip(range(len(resp)), resp):
+                for i, j in zip(it, range(len(it))):
+                    Label(resW, text = str(i)).grid(row = n+1, column = j)
+
 
         elif(op == 3):
             resW.title('Newton')
              #poe haders da tabela
             Label(resW, text = "k").grid(row = 0, column = 0)
-            Label(resW, text = "a").grid(row = 0, column = 1)
-            Label(resW, text= "b").grid(row = 0, column = 2)
-            Label(resW, text= "(b-a)").grid(row = 0, column = 3)
-            Label(resW, text= "µ").grid(row = 0, column = 4)
-            Label(resW, text= "λ").grid(row = 0, column = 5)
-            Label(resW, text= "f(µ)").grid(row = 0, column = 6)
-            Label(resW, text= "f(λ)").grid(row = 0, column = 7)
-            Label(resW, text= "f(µ) > ou < f(λ)?").grid(row = 0, column = 8)
+            Label(resW, text = "xᵏ").grid(row = 0, column = 1)
+            Label(resW, text= "∇f(x)").grid(row = 0, column = 2)
+            Label(resW, text= "H(x)").grid(row = 0, column = 3)
+            Label(resW, text= "H⁻¹(x)").grid(row = 0, column = 4)
+            Label(resW, text= "d").grid(row = 0, column = 5)
+            Label(resW, text= "xᵏ⁺¹").grid(row = 0, column = 6)
             #executa funcao
-#            lista = funcoes.Newton(f, a, b, ep)
- #           r = 1
-  #          c = 0
-   #         for i in lista:
-    #            o = 0
-     #           if (type(i) is str):
-     #                   if(o == 1):
-      #                      Label(resW, text = i).grid(row = r, column = c, columnspan = 5)
-       #                     c+=5
-        #                else:
-         #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
-          #                  c+=2
-           #             o+=1
-      #                  continue
-       #         for j in i:
-        #            Label(resW, text = str(j)).grid(row = r, column = c)
-         #           c+=1
-         #       c=0
-          #      r+=1
+            resp = funcoes.newton(f, x, e)
+            for n, it in zip(range(len(resp)), resp):
+                for i, j in zip(it, range(len(it))):
+                    Label(resW, text = str(i)).grid(row = n+1, column = j)
 
         elif(op == 4):
             resW.title("Gradiente Conjugado Generalizado")
@@ -261,9 +233,9 @@ davidsonPowell = Radiobutton(optionsF, text = 'Davidson-Fletcher-Powell', variab
 graficoCB = Checkbutton(root, text="Gerar Gráfico", variable = graficoVar)
 #Entradas
 funcao = Entry(dataF, width = 25)
-funcao.insert(0, "x1+2*x2+5*x1*x2-x1^2+3*x2^2")
+funcao.insert(0, "4*x1^2+2*x2*x1+2*x2^2+x1+x2")
 eEntry = Entry(dataF)
-eEntry.insert(0, "0.1")
+eEntry.insert(0, "0.01")
 x00Entry = Entry(dataF, width = 5)
 x00Entry.insert(0, "0")
 x01Entry = Entry(dataF, width = 5)
