@@ -66,31 +66,46 @@ def Click():
 
         elif(op == 1):
             resW.title("Hooke and Jeeves")
-            #poe haders da tabela
-            Label(resW, text= "k").grid(row = 0, column = 0)
-            Label(resW, text = "a").grid(row = 0, column = 1)
-            Label(resW, text = "b").grid(row = 0, column = 2)
-            Label(resW, text= "(b-a)").grid(row = 0, column = 3)
-            Label(resW, text= "x").grid(row = 0, column = 4)
-            Label(resW, text= "z").grid(row = 0, column = 5)
-            Label(resW, text= "f(x)").grid(row = 0, column = 6)
-            Label(resW, text= "f(z)").grid(row = 0, column = 7)
-            Label(resW, text= "f(x)>f(z)?").grid(row = 0, column = 8)
-            
+            Label(resW, text = "k").grid(row = 0, column = 0)
+            Label(resW, text = "xᵏ").grid(row = 0, column = 1)
+            Label(resW, text= "j").grid(row = 0, column = 2)
+            Label(resW, text= "yʲ").grid(row = 0, column = 4)
+            Label(resW, text= "dʲ").grid(row = 0, column = 3)
+            Label(resW, text= "λʲ").grid(row = 0, column = 5)
+            Label(resW, text= "yʲ⁺¹").grid(row = 0, column = 6)
+            Label(resW, text= "||xᵏ⁺¹-xᵏ||").grid(row = 0, column = 7)
+            Label(resW, text= "d").grid(row = 0, column = 8)
+            Label(resW, text= "λ").grid(row = 0, column = 9)
+            Label(resW, text= "y").grid(row = 0, column = 10)
             #executa funcao
-#            lista = funcoes.BuscaDicotomica(f, d, a, b, ep)
- #           r = 1
-  #          c = 0
-   #         for i in lista:
-    #            if (type(i) is str):
-     #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 2)
-      #                  r+=1
-       #                 continue
-        #        for j in i:
-         #           Label(resW, text = str(j)).grid(row = r, column = c)
-          #          c+=1
-           #     c=0
-            #    r+=1
+            resp = funcoes.hookeAndJeeves(f, x, e)
+            z = 0
+            w = 0
+            for n, it in zip(range(len(resp)),resp):
+                w = n+1
+                for a, d in zip(it, range(len(it))):
+                    
+                    print(d, a)
+                    if d == 0:
+                        for i, j in zip(a, range(2)):
+                            print(j, i)
+                            Label(resW, text = str(i)).grid(row = w+z, column = j)
+                    if d == 1:
+                        x=0
+                        for b in a:
+                            for i, j in zip(b, range(2,7)):
+                                Label(resW, text = str(i)).grid(row = w+z+x, column = j)
+                            x+=1
+                    
+                    if d == 2:
+                        Label(resW, text = str(a)).grid(row = w+z+1, column = 7)
+
+                    if d == 3:
+                        for i, j in zip(a, range(8, 12)):
+                            Label(resW, text = str(i)).grid(row = w+z+1, column = j)
+                z += w
+                
+                
 
         elif(op == 2):
             resW.title("Gradiente")
@@ -246,11 +261,11 @@ davidsonPowell = Radiobutton(optionsF, text = 'Davidson-Fletcher-Powell', variab
 graficoCB = Checkbutton(root, text="Gerar Gráfico", variable = graficoVar)
 #Entradas
 funcao = Entry(dataF, width = 25)
-funcao.insert(0, "(1-x1)^2+5*(x2-x1^2)^2")
+funcao.insert(0, "x1+2*x2+5*x1*x2-x1^2+3*x2^2")
 eEntry = Entry(dataF)
 eEntry.insert(0, "0.1")
 x00Entry = Entry(dataF, width = 5)
-x00Entry.insert(0, "2")
+x00Entry.insert(0, "0")
 x01Entry = Entry(dataF, width = 5)
 x01Entry.insert(0, "0")
 

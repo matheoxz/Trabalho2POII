@@ -9,18 +9,26 @@ def FunctionReplace(f, x):
     f = f.replace('x1', str(x[0]))
     f = f.replace('x2', str(x[1]))
     f = f.replace('e', 'E')
-    f = f.replace('E', 'e')
     return f
 
 def MinimizaEDelta(f, x1, L):
-      fr = FunctionReplace(f, x1)
-      fr = sp.sympify(fr)
+    fr = FunctionReplace(f, x1)
+    fr = sp.sympify(fr)
 
-      der = sp.Derivative(fr, L)
-      der = der.doit()
+    der = sp.Derivative(fr, L)
+    der = der.doit()
 
-      sol = sp.solve(der, L, rational = None, cubics = True)
-      return sol
+    sol = sp.solve(der, L, rational = None, cubics = True)
+
+    if len(sol) > 1:
+        a = []
+        for i in sol:
+            b = i.evalf()
+            if 'I' not in str(b):
+                a.append(b)
+        sol = a
+
+    return min(sol)
 
 def ciclicas(f, x, eps):
     Resposta = []
@@ -38,14 +46,7 @@ def ciclicas(f, x, eps):
 
             x1 = y + L*d[j]
 
-            sol=MinMinimizaEDelta(f, x1, L)
-            a = []
-            for i in sol:
-                b = i.evalf()
-                if 'I' not in str(b):
-                    a.append(b)
-            
-            l = min(a)
+            l = MinimizaEDelta(f, x1, L)
             ya = y
             y = y + l*d[j]
 
@@ -73,49 +74,49 @@ def hookeAndJeeves(f, x, eps):
     d = sp.Array([[1,0], [0,1]])
     k = 1
     y = sp.Array(x)
-    n=2
+    y1 = y
 
     while True:
         xA = y
         K = []
         K.append([k, xA])
+
+        #busca exploratória
+        J = []
         for j in range(len(x)):
-            J = []
+            yAux = y1 + L*d[j]
 
-            x1 = y + L*d[j]
-            sol = MinimizaEDelta(f, x1, L)
-            y1 = sol
+            l = MinimizaEDelta(f,yAux, L)
+            ya = y
+            y = y1 + l*d[j]
+            y1 = y
+            J.append([j, d[j], ya, l, y])
+        K.append(J)
+        xP = y
 
-            if (j==n):
-                x1=y1
-                dist = np.array(y1-y, dtype = np.float)
-                dist = np.linalg.norm(dist)
-                
-                if (dist<=e):
-                    break
-                else:
-                    D=y1-y
-                    y2=y1+LD
-                    sol2=MinimizaEDelta(f, y2, L)
-                    y2=sol
-            else:
-                y=sol
-                break
-            y=y2
+        #teste distância
+        dist = np.array(xP-xA, dtype = np.float)
+        dist = np.linalg.norm(dist)
+        K.append(dist)
+        if(dist < eps):
+            Resposta.append(K)
+            break
         
-        K.append([y, dist])
+        #busca conjugada
+        d_ = xP - xA
+        y1 = xP + L*d_
+        l = MinimizaEDelta(f, y1, L)
+        y1 = xP + l*d_
+        C = [d_, l, y1]
+        K.append(C)
+
+        k += 1
+
         Resposta.append(K)
 
-        k+=1
-        if(dist < eps):
-            break
 
     return Resposta
             
-
-
-
-        
 
 
 def gradiente():
