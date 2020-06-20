@@ -136,7 +136,7 @@ def Gradiente_Diff(f, y):
 
     grad = sp.Array([g1, g2])
 
-    return grad
+    return sp.Array(grad)
 
 def gradiente(f, x, eps):
 
@@ -275,13 +275,51 @@ def gradienteConjugadoGeneralizado(f, x, Q, b, e):
         k += 1
 
     return Resposta
-        
 
+def fletcherAndReeves(f, x, eps):
+    Resposta = []
 
-    
+    L = sp.Symbol('λ')
+    y = x
+    i = 1
 
-def fletcherAndReeves():
-    pass
+    g = Gradiente_Diff(f, y)
+    d = (-1)*g
+
+    while True:
+        gA = g
+        d = (-1)*g
+
+        # passo 1
+        dist = np.array(g, dtype = np.float)
+        dist = np.linalg.norm(dist)
+        if(dist<eps):
+            Resposta.append([k, g, dist])
+            break
+
+        # passo 2
+        K = []
+        for k in range(2):
+            # a)
+            y1 = y + L*d
+            l = MinimizaEDelta(f, y1, L)
+            y = y + l*d
+            # b)
+            g = Gradiente_Diff(f, y)
+            # c)
+            if k < 1:
+                b1 = sp.Matrix(g).transpose()*sp.Matrix(g)
+                b2 = sp.Matrix(gA).transpose()*sp.Matrix(gA)
+                B = b1[0]/b2[0]
+                d = B*d - g
+        # passo 3
+        xP = y
+
+        Resposta.append([i, gA, dist, d, l, y])
+
+        i += 1
+
+    return Resposta
 
 
 def davidsonFletcherPowell():

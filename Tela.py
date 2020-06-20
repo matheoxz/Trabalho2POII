@@ -168,26 +168,18 @@ def Click():
         
         elif(op == 5):
             resW.title("Fletcher and Reeves")
-            Label(resW, text = "k").grid(row = 0, column = 0)
-            Label(resW, text = "x").grid(row = 0, column = 1)
-            Label(resW, text= "f'(x)").grid(row = 0, column = 2)
-            Label(resW, text= "f''(x)").grid(row = 0, column = 3)
-            Label(resW, text= "|f'(x)| > ε?").grid(row = 0, column = 4)
-            Label(resW, text= "|xi-xi-1|/max{|xi|,1} > ε?").grid(row = 0, column = 5)
+            Label(resW, text = "i").grid(row = 0, column = 0)
+            Label(resW, text = "∇f(x)").grid(row = 0, column = 1)
+            Label(resW, text= "||∇f(x)||").grid(row = 0, column = 2)
+            Label(resW, text= "d").grid(row = 0, column = 3)
+            Label(resW, text= "λ").grid(row = 0, column = 4)
+            Label(resW, text= "xᵏ⁺¹").grid(row = 0, column = 5)
 
-      #      lista = funcoes.Newton(f, a, ep)
-       #     r = 1
-        #    c = 0
-         #   for i in lista:
-          #      if (type(i) is str):
-           #             Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
-            #            r+=1
-             #           continue
-              #  for j in i:
-               #     Label(resW, text = str(j)).grid(row = r, column = c)
-                #    c+=1
-           #     c=0
-            #    r+=1
+            resp = funcoes.fletcherAndReeves(f, x, e)
+            
+            for n, it in zip(range(len(resp)), resp):
+                for i, j in zip(it, range(len(it))): 
+                    Label(resW, text = str(i)).grid(row = n+1, column = j)
             
         elif(op == 6):
             resW.title("Davison-Fletcher-Powell")
@@ -237,13 +229,13 @@ davidsonPowell = Radiobutton(optionsF, text = 'Davidson-Fletcher-Powell', variab
 graficoCB = Checkbutton(root, text="Gerar Gráfico", variable = graficoVar)
 #Entradas
 funcao = Entry(dataF, width = 25)
-funcao.insert(0, "4*x1^2+2*x2*x1+2*x2^2+x1+x2")
+funcao.insert(0, "x1^3-2*x1*x2+x2^2")
 eEntry = Entry(dataF)
 eEntry.insert(0, "0.01")
 x00Entry = Entry(dataF, width = 5)
-x00Entry.insert(0, "0")
+x00Entry.insert(0, "1")
 x01Entry = Entry(dataF, width = 5)
-x01Entry.insert(0, "0")
+x01Entry.insert(0, "1")
 q11Entry = Entry(dataF, width = 5)
 q11Entry.insert(0, "5")
 q12Entry = Entry(dataF, width = 5)
