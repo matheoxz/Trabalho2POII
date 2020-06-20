@@ -30,6 +30,12 @@ def Click():
         b2 = float(b2Entry.get())
         b = [b1, b2]
 
+        s11 = float(s11Entry.get())
+        s12 = float(s12Entry.get())
+        s21 = float(s21Entry.get())
+        s22 = float(s22Entry.get())
+        S = [[s11, s12],[s21, s22]]
+
         op = optionVar.get()
         gr = graficoVar.get()
         
@@ -190,10 +196,10 @@ def Click():
             Label(resW, text= "|f'(x)| > ε?").grid(row = 0, column = 4)
             Label(resW, text= "|xi-xi-1|/max{|xi|,1} > ε?").grid(row = 0, column = 5)
 
-#            lista = funcoes.Newton(f, a, ep)
+            resp = funcoes.davidsonFletcherPowell(f, e, S, x)
  #           r = 1
   #          c = 0
-   #         for i in lista:
+   #         for i in resp:
     #            if (type(i) is str):
      #                   Label(resW, text = i).grid(row = r, column = c, columnspan = 6)
       #                  r+=1
@@ -248,6 +254,14 @@ b1Entry = Entry(dataF, width = 5)
 b1Entry.insert(0, "24")
 b2Entry = Entry(dataF, width = 5)
 b2Entry.insert(0, "12")
+s11Entry = Entry(dataF, width = 5)
+s11Entry.insert(0, "1")
+s12Entry = Entry(dataF, width = 5)
+s12Entry.insert(0, "0")
+s21Entry = Entry(dataF, width = 5)
+s21Entry.insert(0, "0")
+s22Entry = Entry(dataF, width = 5)
+s22Entry.insert(0, "1")
 
 
 #Botoes
@@ -263,7 +277,7 @@ virguLabel = Label(dataF, text = ' ,  ').grid(row = 3, column = 3)
 fechaLabel = Label(dataF, text = ']ᵗ').grid(row = 3, column = 5, sticky = W)
 QLabel = Label(dataF, text = 'Q = ').grid(row = 4, column = 1, sticky = E)
 bLabel = Label(dataF, text = 'b = ').grid(row = 4, column = 4)
-
+SLabel = Label(dataF, text = 'S = ').grid(row = 7, column = 1, sticky = E)
 
 #Entrys
 funcao.grid(row = 1, column= 2, sticky=W+E, columnspan = 4)
@@ -276,6 +290,10 @@ q21Entry.grid(row = 5, column = 2)
 q22Entry.grid(row = 5, column = 3)
 b1Entry.grid(row = 4, column = 5)
 b2Entry.grid(row = 5, column = 5)
+s11Entry.grid(row = 7, column = 2)
+s12Entry.grid(row = 7, column = 3)
+s21Entry.grid(row = 8, column = 2)
+s22Entry.grid(row = 8, column = 3)
 
 #Radio Buttons
 ciclicaRB.grid(row= 1, column= 3, sticky = W)
@@ -285,6 +303,7 @@ newtonRB.grid(row= 4, column=4, sticky = W)
 gradienteConjugadoRB.grid(row=1, column=4, sticky = W)
 fletcherAndReevesRB.grid(row=2, column=4, sticky = W)
 davidsonPowell.grid(row = 3, column = 4, sticky = W)
+
 #Frames
 dataF.grid(row=0, column=0, sticky= W+E+N+S, columnspan = 2)
 optionsF.grid(row=0, column=2, sticky= W+E+N+S)

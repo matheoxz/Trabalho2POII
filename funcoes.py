@@ -233,7 +233,6 @@ def newton(f, x, eps):
 
     return Resposta
 
-
 def gradienteConjugadoGeneralizado(f, x, Q, b, e):
     Resposta = []
 
@@ -322,7 +321,49 @@ def fletcherAndReeves(f, x, eps):
     return Resposta
 
 
-def davidsonFletcherPowell():
-    pass
+def davidsonFletcherPowell(f, e, S, x):
+    Resposta = []
+    L = sp.Symbol('λ')
+    S = sp.Matrix(S)
+    x = sp.Matrix(x)
+    y = x
+    k = 0
+    i = 0
+    n = 2
+    g = sp.Matrix(Gradiente_Diff(f, y))
+
+    while True:
+        d = (-1)*S*g
+        y1 = y + L*d
+        l = MinimizaEDelta(f, y1, L)
+        y = y + l*d
+        
+        if k < (n-1):
+            g1 = sp.Matrix(Gradiente_Diff(f, y1))
+            q = g1 - g
+            p = l*d
+            a1 = sp.Matrix(p*p.transpose())
+            a2 = sp.Matrix(p.transpose()*q)
+            A = a1*a2^(-1)
+            b1 = sp.Matrix(S*q*q.transpose()*S)
+            b2 = sp.Matrix(q.transpose()*S*q)
+            B = b1*b2^(-1)
+            
+            S1 = S + A - B
+
+            Resposta.append([' ', k, y, g, dist, S, d, l])            
+            k += 1
+        
+        else:
+            g = sp.Matrix(Gradiente_Diff(f, y))
+            k = 0
+            
+            Resposta.append([i, k, y, g, dist, S, d, l])
+            i += 1
+
+        if (dist<=e):
+            break
+    
+    return Resposta
 
 
