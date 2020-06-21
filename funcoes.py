@@ -337,33 +337,41 @@ def davidsonFletcherPowell(f, e, S, x):
         y1 = y + L*d
         l = MinimizaEDelta(f, y1, L)
         y = y + l*d
+        m = 1
         
         if k < (n-1):
-            g1 = sp.Matrix(Gradiente_Diff(f, y1))
+            g1 = sp.Matrix(Gradiente_Diff(f, y))
             q = g1 - g
             p = l*d
-            a1 = sp.Matrix(p*p.transpose())
-            a2 = sp.Matrix(p.transpose()*q)
-            A = a1*a2^(-1)
-            b1 = sp.Matrix(S*q*q.transpose()*S)
-            b2 = sp.Matrix(q.transpose()*S*q)
-            B = b1*b2^(-1)
+            a1 = (p*p.transpose())
+            a2 = (p.transpose()*q)
+            A = a1*1/a2[0]
+            b1 = (S*q*q.transpose()*S)
+            b2 = (q.transpose()*S*q)
+            B = b1*1/b2[0]
             
             S1 = S + A - B
-
-            Resposta.append([' ', k, y, g, dist, S, d, l])            
+           
             k += 1
         
         else:
-            g = sp.Matrix(Gradiente_Diff(f, y))
+            g1 = sp.Matrix(Gradiente_Diff(f, y))
             k = 0
+            m = 0
             
-            Resposta.append([i, k, y, g, dist, S, d, l])
+
+        S = S1
+        g = g1
+        dist = np.array(g, dtype = np.float)
+        dist = np.linalg.norm(dist)
+
+        Resposta.append([i, k, y.tolist(), dist, S.tolist(), d.tolist(), l])
+        if(m == 0):
             i += 1
 
         if (dist<=e):
             break
-    
+        
     return Resposta
 
 
